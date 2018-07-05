@@ -1,4 +1,4 @@
-import FluentSQLite
+import FluentPostgreSQL
 import Vapor
 import Leaf
 
@@ -21,20 +21,29 @@ public func configure(
     // Register the LeafProvider
     try services.register(LeafProvider()) // added
     
-    // Register Fluent
-    try services.register(FluentSQLiteProvider())
+    // Register FluentPostgreSQL
+    try services.register(FluentPostgreSQLProvider())
     
     // Set LeafRenderer as our preferred ViewRenderer
     config.prefer(LeafRenderer.self, for: ViewRenderer.self) // added
     
-    // Initiate database service
-    var databases = DatabasesConfig()
-    try databases.add(database: SQLiteDatabase(storage: .memory), as: .sqlite)
-    services.register(databases)
+    // Configure PostgreSQL server
+    
+    let postgresqlConfig = PostgreSQLDatabaseConfig(
+        hostname: "127.0.0.1",
+        port: 5432,
+        username: "christopherashton",
+        database: "mycooldb",
+        password: nil
+    )
+    
+    // register database
+    services.register(postgresqlConfig)
+
     
     // Register migration service to introduce model to database
     var migrations = MigrationConfig()
-    migrations.add(model: User.self, database: .sqlite) // adding things to migrations...
+    migrations.add(model: User.self, database: .psql) // adding things to migrations...
     services.register(migrations)
 
 }
