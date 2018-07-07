@@ -22,3 +22,9 @@
 Sweet [Vapor tutorial by Martin Lasek][tutorial] on how to use PostgreSQL in Vapor3
 
 [tutorial]: https://medium.com/@martinlasek/tutorial-how-to-use-postgresql-efb62a434cc5
+
+Be sure to start the PostgreSQL service prior to running this app.  
+If you are using a Mac and uploaded PostgreSQL with Homebrew:  
+```
+brew services start postgresql
+```
